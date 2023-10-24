@@ -19,15 +19,15 @@ module.exports= {
                     if(isMatch){
                     var payload = { id: user.id };
                     var token = jwt.sign(payload, jwtOptions.secretOrKey);
-                    return res.status(200).json({ "mensagem" : 'Token generated', token: token });
+                    return res.status(200).json({ "message" : 'token generated', token: token });
                     } 
                     else {
-                        return res.status(400).json({ "mensagem" : 'Incorrect password' });
+                        return res.status(400).json({ "message" : 'incorrect password' });
                     }
                 })
             }
             else {
-                return res.status(400).json({ "mensagem": 'User not found' });
+                return res.status(400).json({ "message": 'user not found' });
             }
         })
         .catch(function(err){

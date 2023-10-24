@@ -4,28 +4,28 @@ const bcrypt = require('bcrypt');
 module.exports= {
 
     register: async function (req,res) {
-        var nome = req.body.nome;
+        var name = req.body.name;
         var email = req.body.email;
         var password = req.body.password;
         var repeat = req.body.repeatpassword;
 
         if (password == null || email == null) {
-            return res.status(400).json("Don't leave the space empty.")
+            return res.status(400).json("don't leave fields empty.")
         } 
 
         if (password == repeat) {
 
             var hashed = bcrypt.hashSync(password, 10);
             try {
-                await User.create({ nome: nome, email: email, password: hashed, token_redefine: null });
-                return res.status(201).json('Registered.');
+                await User.create({ name: name, email: email, password: hashed, token_redefine: null });
+                return res.status(201).json('registered');
             }
             catch(err){
                 console.log(err)
-                return res.status(400).json('Try again.');
+                return res.status(400).json('try again');
             }
                 
         }
-        else return res.status(400).json("Passwords don't match.");
+        else return res.status(400).json("passwords don't match");
     }
 }

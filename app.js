@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 
-
 // Passport
 app.use(passport.initialize());
 
@@ -100,7 +99,7 @@ app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     return res.status(err.statusCode).json({
       status : err.statusCode,
-      mensagem : "Error in JSON syntax"
+      message : "Error in JSON syntax"
     });
   }
     next();
@@ -110,7 +109,7 @@ app.use(function (err, req, res, next) {
   if (err.statusCode === 401) { 
     res.status(401).json({
       status : 401,
-      mensagem : "Not authorized"
+      message : "Not authorized"
     });
   }
   next();
@@ -119,12 +118,12 @@ app.use(function (err, req, res, next) {
 app.use((req, res) => {
   res.status(404).json({
     status : 404,
-    mensagem : "Not found"
+    message : "Not found"
   })
 });
 
 // Listen to port 3000
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log('Listening on port', port);
 });
