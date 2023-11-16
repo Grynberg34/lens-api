@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const List = require('../models/List');
+const Item = require('../models/Item');
 
 var jwtOptions = {};
 jwtOptions.secretOrKey = process.env.JWT_KEY;
@@ -18,17 +20,29 @@ module.exports = {
     var content = req.body.content;
     var type = req.body.type;
     var items = req.body.items;
+    var date = new Date;
+
+    console.log(items)
     
     jwt.verify(token, process.env.JWT_KEY, async function(err, decoded) {
       
-      await List.create({
+      var list = await List.create({
         title: title,
         description: description,
         content: content,
         type: type,
-        items: items,
-        userId: decoded.id
-      })
+        userId: decoded.id,
+        date: date
+      });
+
+
+      for (var i = 0; i < items.length; i++) {
+        await Item.create({
+          movie_id: items[i],
+          order: i,
+          listId: list.id
+        })
+      }
 
       return res.status(200).json({ "message":"List created" });
 

@@ -2,7 +2,7 @@ const connection = require('../config/database');
 const { DataTypes } = require('sequelize');
 const User= require('./User');
 
-const List = connection.define('Lists', {
+const List = connection.define('List', {
   id: { 
     type: DataTypes.INTEGER,
     unique: true,
@@ -26,9 +26,9 @@ const List = connection.define('Lists', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  items: { 
-    type: DataTypes.STRING,
-    allowNull: false,
+  date: { 
+    type: DataTypes.DATE,
+    allowNull: false
   },
 
 },{

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable('lists', {
+    await queryInterface.createTable('tiers', {
       id: { 
         type: DataTypes.INTEGER,
         unique: true,
@@ -10,43 +10,31 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true   
       },
-      title: { 
+      name: { 
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: { 
-        type: DataTypes.STRING,
+      order: { 
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      description: { 
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      content: { 
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      date: { 
-        type: DataTypes.DATE,
-        allowNull: false
-      },
-      userId: {
+      listId: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
           model: {
-            tableName: 'users'
+            tableName: 'lists'
           },
           key: 'id',
         },
       },
       }, 
       {
-        tableName: 'lists'
+        tableName: 'tiers'
       });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('lists');
+    await queryInterface.dropTable('tiers');
   }
 };
