@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const List = require('../models/List');
 const Item = require('../models/Item');
+const Tier = require('../models/Tier');
 
 var jwtOptions = {};
 jwtOptions.secretOrKey = process.env.JWT_KEY;
@@ -20,9 +21,8 @@ module.exports = {
     var content = req.body.content;
     var type = req.body.type;
     var items = req.body.items;
+    var tiers = req.body.tiers;
     var date = new Date;
-
-    console.log(items)
     
     jwt.verify(token, process.env.JWT_KEY, async function(err, decoded) {
       
@@ -35,6 +35,15 @@ module.exports = {
         date: date
       });
 
+      if (tiers?.length > 0) {
+
+        for (var i = 0; i < tiers.length; i++) {
+          await Tier.create({
+            title: tiers[i],
+            order: i
+          })
+        }
+      }
 
       for (var i = 0; i < items.length; i++) {
         await Item.create({

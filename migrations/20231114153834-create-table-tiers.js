@@ -10,7 +10,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true   
       },
-      name: { 
+      title: { 
         type: DataTypes.STRING,
         allowNull: false,
       },

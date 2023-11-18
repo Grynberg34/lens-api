@@ -30,16 +30,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      tierId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: 'tiers'
-          },
-          key: 'id',
-        },
-      },
       }, 
       {
         tableName: 'items'

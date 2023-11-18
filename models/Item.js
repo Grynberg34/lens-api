@@ -25,6 +25,5 @@ const Item = connection.define('Item', {
 });
 
 Item.belongsTo(List, {foreignKey: 'listId', onUpdate: 'cascade', onDelete: 'CASCADE'});
-Item.belongsTo(Tier, {foreignKey: 'tierId'});
 
 module.exports = Item;

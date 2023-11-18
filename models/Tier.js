@@ -11,7 +11,7 @@ const Tier = connection.define('Tier', {
     autoIncrement: true,
     primaryKey: true   
   },
-  name: { 
+  title: { 
     type: DataTypes.STRING,
     allowNull: false,
   },
