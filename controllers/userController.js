@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const List = require('../models/List');
 const Item = require('../models/Item');
 const Tier = require('../models/Tier');
@@ -19,6 +20,7 @@ module.exports = {
     var title = req.body.title;
     var description = req.body.description;
     var content = req.body.content;
+    var uri_content = req.body.uri_content;
     var type = req.body.type;
     var items = req.body.items;
     var tiers = req.body.tiers;
@@ -30,6 +32,7 @@ module.exports = {
         title: title,
         description: description,
         content: content,
+        uri_content: uri_content,
         type: type,
         userId: decoded.id,
         date: date
@@ -40,7 +43,8 @@ module.exports = {
         for (var i = 0; i < tiers.length; i++) {
           await Tier.create({
             title: tiers[i],
-            order: i
+            order: i,
+            listId: list.id
           })
         }
       }
@@ -56,7 +60,41 @@ module.exports = {
       return res.status(200).json({ "message":"List created" });
 
     });
-  }
+  },
+  getWatchist: async function (req,res) {
+    var token = req.header('authorization').substr(7);
+    var id = req.params.id;
+    
+    jwt.verify(token, process.env.JWT_KEY, async function(err, decoded) {
 
+      var list = await List.findOne({where:{
+        userId: decoded.id,
+        id: id,
+        type: 'watch'
+      }})
+
+      if (list !== null) {
+        var items = await Item.findAll({
+          where: {
+            listId: list.id
+          },
+          order: [
+            ['order', 'asc' ]
+          ]
+        })
+      } 
+
+      var user = await User.findOne({where: {
+        id: list.userId
+      }})
+
+      list.dataValues.username = user.name;
+
+      list.dataValues.items = items;
+      
+      return res.status(200).json(list);
+
+    });
+  }
 
 }

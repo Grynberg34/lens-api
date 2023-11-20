@@ -19,10 +19,14 @@ module.exports = {
         allowNull: false,
       },
       description: { 
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT('long'),
         allowNull: true,
       },
       content: { 
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      uri_content: { 
         type: DataTypes.STRING,
         allowNull: false,
       },
