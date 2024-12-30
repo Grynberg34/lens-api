@@ -82,6 +82,57 @@ module.exports = {
             ['order', 'asc' ]
           ]
         })
+
+        var user = await User.findOne({where: {
+          id: list.userId
+        }})
+        list.dataValues.username = user.name;
+  
+        list.dataValues.items = items;
+        
+        return res.status(200).json(list);
+      } else {
+        return res.status(400).json('Error');
+      }
+
+
+
+    });
+  },
+  getTierlist: async function (req,res) {
+    var token = req.header('authorization').substr(7);
+    var id = req.params.id;
+    
+    jwt.verify(token, process.env.JWT_KEY, async function(err, decoded) {
+
+      var list = await List.findOne({where:{
+        userId: decoded.id,
+        id: id,
+        type: 'tier'
+      }})
+
+      if (list !== null) {
+        var items = await Item.findAll({
+          where: {
+            listId: list.id
+          },
+          order: [
+            ['order', 'asc' ]
+          ]
+        })
+
+        var tiers = await Tier.findAll( {
+          where: {
+            listId: list.id
+          },
+          order: [
+            ['order', 'asc' ]
+          ]
+        })
+
+        for (var i = 0; i < tiers.length; i++) {
+          tiers[i].dataValues.items = [];
+        }
       } 
 
       var user = await User.findOne({where: {
@@ -91,6 +142,8 @@ module.exports = {
       list.dataValues.username = user.name;
 
       list.dataValues.items = items;
+
+      list.dataValues.tiers = tiers;
       
       return res.status(200).json(list);
 

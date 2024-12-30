@@ -10,4 +10,6 @@ router.post('/create/list', passport.authenticate('jwt', {session: false}), auth
 
 router.get('/watch/:id', passport.authenticate('jwt', {session: false}), authController.checkUser, userController.getWatchist);
 
+router.get('/tier/:id', passport.authenticate('jwt', {session: false}), authController.checkUser, userController.getTierlist);
+
 module.exports = router;
